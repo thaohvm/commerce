@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -5,6 +6,12 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
+
+
+#class ListForm(forms.Form):
+#   item = forms.CharField(label="Item")
+#   description = forms.CharField(label="Description", widget=forms.Textarea())
+#   image = forms.CharField(label="URLs")
 
 
 def index(request):
@@ -61,3 +68,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def listing(request):
+    pass
