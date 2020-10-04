@@ -7,7 +7,7 @@ class User(AbstractUser):
         return f"{self.username} - {self.email}"
 
 
-class Listings(models.Model):
+class Listing(models.Model):
     item = models.CharField(max_length=64)
     price = models.FloatField()
     currency = models.CharField(max_length=3)
