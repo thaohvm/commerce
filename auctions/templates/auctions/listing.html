@@ -1,10 +1,14 @@
 {% extends "auctions/layout.html" %}
+{% load static %}
 
 {% block body %}
     <h2>Listing: {{ item.item }}</h2>
 
     <ul>
+        <img class="listing image" src="{% static item.image %}">
+        <br/>
         {{ item.description }}
+        <br/>
         {{ item.currency }} {{ item.price }}
     </ul>
 
