@@ -72,7 +72,7 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
-def listing(request):
-    return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+def listing(request, id):
+    return render(request, "auctions/listing.html", {
+        "item": Listing.objects.get(id=id)
     })

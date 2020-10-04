@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Listing: {{ item.item }}</h2>
+
+    <ul>
+        {{ item.description }}
+        {{ item.currency }} {{ item.price }}
+    </ul>
+
+    <h3>Details</h3>
+    <ul>
+        <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
+        <li>Categories</li>
+    </ul>
+{% endblock %}
