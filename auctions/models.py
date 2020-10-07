@@ -31,11 +31,6 @@ class Listing(models.Model):
             f"{self.price}{self.currency} - {self.created}"
         )
 
-    def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            obj.created_by = request.user
-        super().save_model(request, obj, form, change)
-
 # class Bids(models.Model):
 #     item = models.CharField(max_length=64)
 #     bid_th = models.IntegerField()

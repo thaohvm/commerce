@@ -78,7 +78,9 @@ def listing(request, id=0):
     if request.method == "POST":
         form = NewListingForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.created_by = request.user
+            obj.save()
             return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/listing.html", {
