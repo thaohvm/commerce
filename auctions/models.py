@@ -19,8 +19,10 @@ class Listing(models.Model):
     price = models.FloatField()
     currency = models.CharField(max_length=3)
     image = models.ImageField(upload_to="uploads/images", blank=True)
-    description = models.CharField(max_length=64, blank=True)
+    image_url = models.URLField(blank=True)
+    description = models.CharField(max_length=256, blank=True)
     categories = models.ForeignKey(Category, on_delete=models.CASCADE)
+    starting_bid = models.FloatField()
     created = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
