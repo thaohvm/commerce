@@ -7,12 +7,20 @@ class User(AbstractUser):
         return f"{self.username} - {self.email}"
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
 class Listing(models.Model):
     item = models.CharField(max_length=64)
     price = models.FloatField()
     currency = models.CharField(max_length=3)
     image = models.ImageField(upload_to="uploads/images", blank=True)
     description = models.CharField(max_length=64, blank=True)
+    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 

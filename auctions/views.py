@@ -76,3 +76,6 @@ def listing(request, id):
     return render(request, "auctions/listing.html", {
         "item": Listing.objects.get(id=id)
     })
+
+def create_listing(request):
+    pass
