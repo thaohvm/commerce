@@ -8,10 +8,11 @@ from django.urls import reverse
 from .models import Listing, User
 
 
-# class ListForm(forms.Form):
-#   item = forms.CharField(label="Item")
-#   description = forms.CharField(label="Description", widget=forms.Textarea())
-#   image = forms.CharField(label="URLs")
+class NewListingForm(forms.ModelForm):
+    class Meta:
+        model = Listing
+        fields = ["item", "description", "price",
+                  "currency", "image_url", "category"]
 
 
 def index(request):
@@ -76,6 +77,7 @@ def listing(request, id):
     return render(request, "auctions/listing.html", {
         "item": Listing.objects.get(id=id)
     })
+
 
 def create_listing(request):
     pass

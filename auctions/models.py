@@ -21,8 +21,7 @@ class Listing(models.Model):
     image = models.ImageField(upload_to="uploads/images", blank=True)
     image_url = models.URLField(blank=True)
     description = models.CharField(max_length=256, blank=True)
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
-    starting_bid = models.FloatField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
