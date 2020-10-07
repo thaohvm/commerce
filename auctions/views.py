@@ -80,4 +80,8 @@ def listing(request, id):
 
 
 def create_listing(request):
-    pass
+    if request.method == "GET":
+        return render(request, "auctions/create_listing.html", {
+            "form": NewListingForm()
+        })
+
