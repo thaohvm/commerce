@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.shortcuts import redirect
 
-from .models import Listing, User
+from .models import Bid, Listing, User
 
 
 class NewListingForm(forms.ModelForm):
@@ -83,8 +83,13 @@ def listing(request, id=0):
             obj.save()
             return HttpResponseRedirect(reverse("index"))
     else:
+        item = Listing.objects.get(id=id)
+        bids = Bid.objects.filter(item=item)
+        is_max_bid = bids and max(bids, key=lambda b: b.bid).bid_by.id == request.user.id
         return render(request, "auctions/listing.html", {
-            "item": Listing.objects.get(id=id)
+            "item": item,
+            "total_bids": len(bids),
+            "is_max_bid": is_max_bid,
         })
 
 

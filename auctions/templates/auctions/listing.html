@@ -2,20 +2,27 @@
 {% load static %}
 
 {% block body %}
-    <h2>Listing: {{ item.item }}</h2>
+<h2>Listing: {{ item.item }}</h2>
 
-    <ul>
-        <img class="listing image" src="{% static item.image %}">
-        <br/>
-        {{ item.description }}
-        <br/>
-        {{ item.currency }} {{ item.price }}
-    </ul>
-    <h6>  bid(s) so far. xxx is the current bid.</h6>
-    <button type="button"> Place Bid</button>
-    <h3>Details</h3>
-    <ul>
-        <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
-        <li>Categories</li>
-    </ul>
+<ul>
+    <img class="listing image" src="{% static item.image %}">
+    <br />
+    {{ item.description }}
+    <br />
+    {{ item.currency }} {{ item.price }}
+</ul>
+<h6> {{ total_bids }} bid(s) so far. </h6>
+{% if total_bids > 0 %}
+{% if is_max_bid %}
+You are the current max bid.
+{% else %}
+You are not the current max bid.
+{% endif %}
+{% endif %}
+<button type="button"> Place Bid</button>
+<h3>Details</h3>
+<ul>
+    <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
+    <li>Categories</li>
+</ul>
 {% endblock %}
