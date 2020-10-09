@@ -32,16 +32,16 @@ class Listing(models.Model):
         )
 
 
-class Bids(models.Model):
+class Bid(models.Model):
     item = models.ForeignKey(Listing, on_delete=models.CASCADE)
     bid = models.FloatField()
     bid_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.item} : {self.bid_th} ({self.bid})"
+        return f"{self.item} : {self.bid} ({self.bid_by})"
 
 
-# class Comments(models.Model):
+# class Comment(models.Model):
 #     user = models.CharField(max_length=64)
 #     content = models.IntegerField()
 
