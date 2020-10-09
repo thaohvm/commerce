@@ -93,3 +93,7 @@ def create_listing(request):
         return render(request, "auctions/create_listing.html", {
             "form": NewListingForm()
         })
+
+
+def bid(request):
+    pass

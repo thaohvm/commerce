@@ -31,13 +31,14 @@ class Listing(models.Model):
             f"{self.price}{self.currency} - {self.created}"
         )
 
-# class Bids(models.Model):
-#     item = models.CharField(max_length=64)
-#     bid_th = models.IntegerField()
-#     bid = models.IntegerField()
 
-#     def __str__(self):
-#         return f"{self.item} : {self.bid_th} ({self.bid})"
+class Bids(models.Model):
+    item = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    bid = models.FloatField()
+    bid_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.item} : {self.bid_th} ({self.bid})"
 
 
 # class Comments(models.Model):
