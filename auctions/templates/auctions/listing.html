@@ -19,7 +19,18 @@ You are the current max bid.
 You are not the current max bid.
 {% endif %}
 {% endif %}
-<button type="button"> Place Bid</button>
+
+<div class="bid">
+    <form action="{% url 'bid' %}" method="post">
+        {% csrf_token %}
+        <table>
+        {{ bid_form.item }}
+        {{ bid_form.bid }}
+        </table>
+        <input type="submit" value="Place Bid"> 
+    </form> 
+</div> 
+
 <h3>Details</h3>
 <ul>
     <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
