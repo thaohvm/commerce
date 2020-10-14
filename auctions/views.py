@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.shortcuts import redirect
@@ -99,6 +99,7 @@ def listing(request, id=0):
             bids, key=lambda b: b.bid).bid_by.id == request.user.id
         return render(request, "auctions/listing.html", {
             "item": item,
+            "price": max(item.price, max(bids, key=lambda b: b.bid).bid),
             "total_bids": len(bids),
             "is_max_bid": is_max_bid,
             "bid_form": BidForm(None, initial={
@@ -119,12 +120,22 @@ def bid(request):
     if request.method == "POST":
         form = BidForm(request.POST)
         if form.is_valid():
-            if bid.Bid > max("price", "is_max_bid"):
+            item = form.cleaned_data["item"]
+            bid = form.cleaned_data["bid"]
+            bids = Bid.objects.filter(item=item)
+            if bid > max(item.price, max(bids, key=lambda b: b.bid).bid):
                 obj = form.save(commit=False)
                 obj.bid_by = request.user
                 obj.save()
-                return HttpResponseRedirect(reverse("index"))
-            else:
-                return HttpResponseNotFound("Page not found")
-            
-        
+                return render(request, "auctions/listing.html", {
+                    "item": item,
+                    "price": bid,
+                    "total_bids": len(bids) + 1,
+                    "is_max_bid": True,
+                    "bid_form": BidForm(None, initial={
+                        "item": item,
+                        "bid": 0,
+                    }),
+                })
+
+        return HttpResponseBadRequest("Invalid bid!")

@@ -9,9 +9,10 @@
     <br />
     {{ item.description }}
     <br />
-    {{ item.currency }} {{ item.price }}
+    {{ item.currency }} {{ price }}
 </ul>
 <h6> {{ total_bids }} bid(s) so far. </h6>
+{% if user.is_authenticated %}
 {% if total_bids > 0 %}
 {% if is_max_bid %}
 You are the current max bid.
@@ -29,7 +30,11 @@ You are not the current max bid.
         </table>
         <input type="submit" value="Place Bid"> 
     </form> 
-</div> 
+</div>
+
+{% else %}
+<a class="nav-link" href="{% url 'login' %}">Log in to bid</a>
+{% endif %}
 
 <h3>Details</h3>
 <ul>
