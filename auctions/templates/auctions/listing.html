@@ -25,11 +25,11 @@ You are not the current max bid.
     <form action="{% url 'bid' %}" method="post">
         {% csrf_token %}
         <table>
-        {{ bid_form.item }}
-        {{ bid_form.bid }}
+            {{ bid_form.item }}
+            {{ bid_form.bid }}
         </table>
-        <input type="submit" value="Place Bid"> 
-    </form> 
+        <input type="submit" value="Place Bid">
+    </form>
 </div>
 
 {% else %}
@@ -41,4 +41,24 @@ You are not the current max bid.
     <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
     <li>Categories</li>
 </ul>
+
+<h3>Comments</h3>
+
+<ul>
+    {% for comment in comments %}
+    <li>{{ comment.content }} by {{ comment.created_by.first_name}} at {{ comment.created }}</li>
+    {% endfor %}
+</ul>
+
+<div class="comments">
+    <form action="{% url 'comment' %}" method="post">
+        {% csrf_token %}
+        <table>
+            {{ comment_form.item }}
+            {{ comment_form.content }}
+        </table>
+        <input type="submit" value="Post">
+    </form>
+</div>
+
 {% endblock %}

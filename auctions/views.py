@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 
 
-from .models import Bid, Listing, User
+from .models import Bid, Comment, Listing, User
 
 
 class NewListingForm(forms.ModelForm):
@@ -21,6 +21,15 @@ class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
         fields = ["item", "bid"]
+        widgets = {
+            "item": forms.HiddenInput
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["item", "content"]
         widgets = {
             "item": forms.HiddenInput
         }
@@ -95,8 +104,10 @@ def listing(request, id=0):
     else:
         item = Listing.objects.get(id=id)
         bids = Bid.objects.filter(item=item)
-        is_max_bid = bids and max(
+        is_max_bid = request.user.id is not None and bids and max(
             bids, key=lambda b: b.bid).bid_by.id == request.user.id
+        comments = Comment.objects.filter(item=item)
+
         return render(request, "auctions/listing.html", {
             "item": item,
             "price": max(item.price, max(bids, key=lambda b: b.bid).bid),
@@ -105,6 +116,11 @@ def listing(request, id=0):
             "bid_form": BidForm(None, initial={
                 "item": item,
                 "bid": 0,
+            }),
+            "comments": sorted(comments, key=lambda c: c.created, reverse=True),
+            "comment_form": CommentForm(None, initial={
+                "item": item,
+                "content": "",
             }),
         })
 
@@ -127,15 +143,18 @@ def bid(request):
                 obj = form.save(commit=False)
                 obj.bid_by = request.user
                 obj.save()
-                return render(request, "auctions/listing.html", {
-                    "item": item,
-                    "price": bid,
-                    "total_bids": len(bids) + 1,
-                    "is_max_bid": True,
-                    "bid_form": BidForm(None, initial={
-                        "item": item,
-                        "bid": 0,
-                    }),
-                })
+                return HttpResponseRedirect(reverse("listing", args=[item.id]))
+
+        return HttpResponseBadRequest("Invalid bid!")
+
+
+def comment(request):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.created_by = request.user
+            obj.save()
+            return HttpResponseRedirect(reverse("listing", args=[form.cleaned_data["item"].id]))
 
         return HttpResponseBadRequest("Invalid bid!")
