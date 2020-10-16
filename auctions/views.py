@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 
 
-from .models import Bid, Comment, Listing, User
+from .models import Bid, Comment, Listing, User, Watchlist
 
 
 class NewListingForm(forms.ModelForm):
@@ -157,4 +157,14 @@ def comment(request):
             obj.save()
             return HttpResponseRedirect(reverse("listing", args=[form.cleaned_data["item"].id]))
 
-        return HttpResponseBadRequest("Invalid bid!")
+        return HttpResponseBadRequest("Invalid comment!")
+
+
+def watchlist(request, id=0):
+    if request.method == "POST":
+        pass
+    else:
+        watchlist = Watchlist.objects.filter(user=request.user)
+        return render(request, "auctions/watchlist.html", {
+            "watchlist": watchlist
+        })

@@ -49,3 +49,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.item} : {self.created} ({self.created_by}) says: ({self.content})"
+
+
+class Watchlist(models.Model):
+    item = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} : {self.item}"
