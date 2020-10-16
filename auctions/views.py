@@ -35,6 +35,17 @@ class CommentForm(forms.ModelForm):
         }
 
 
+class WatchlistForm(forms.ModelForm):
+    delete = forms.BooleanField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = Watchlist
+        fields = ["item"]
+        widgets = {
+            "item": forms.HiddenInput
+        }
+
+
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all()
@@ -107,12 +118,19 @@ def listing(request, id=0):
         is_max_bid = request.user.id is not None and bids and max(
             bids, key=lambda b: b.bid).bid_by.id == request.user.id
         comments = Comment.objects.filter(item=item)
+        watchlisted = Watchlist.objects.filter(
+            item=item, user=request.user).count() > 0
 
         return render(request, "auctions/listing.html", {
             "item": item,
             "price": max(item.price, max(bids, key=lambda b: b.bid).bid),
             "total_bids": len(bids),
             "is_max_bid": is_max_bid,
+            "watchlisted": watchlisted,
+            "watchlist_form": WatchlistForm(None, initial={
+                "item": item,
+                "delete": watchlisted,
+            }),
             "bid_form": BidForm(None, initial={
                 "item": item,
                 "bid": 0,
@@ -160,9 +178,18 @@ def comment(request):
         return HttpResponseBadRequest("Invalid comment!")
 
 
-def watchlist(request, id=0):
+def watchlist(request):
     if request.method == "POST":
-        pass
+        form = WatchlistForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data["delete"]:
+                Watchlist.objects.filter(
+                    item=form.cleaned_data["item"], user=request.user).delete()
+            else:
+                obj = form.save(commit=False)
+                obj.user = request.user
+                obj.save()
+            return HttpResponseRedirect(reverse("listing", args=[form.cleaned_data["item"].id]))
     else:
         watchlist = Watchlist.objects.filter(user=request.user)
         return render(request, "auctions/watchlist.html", {

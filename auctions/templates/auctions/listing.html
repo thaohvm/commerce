@@ -14,12 +14,27 @@
 
 <h6> {{ total_bids }} bid(s) so far. </h6>
 {% if user.is_authenticated %}
+
+<form action="{% url 'watchlist' %}" method="post">
+    {% csrf_token %}
+    <table>
+        {{ watchlist_form.item }}
+        {{ watchlist_form.delete }}
+    </table>
+    {% if watchlisted %}
+    <input type="submit" value="Watchlisted">
+    {% else %}
+    <input type="submit" value="Not Watchlisted">
+    {% endif %}
+</form>
+
 {% if total_bids > 0 %}
 {% if is_max_bid %}
 You are the current max bid.
 {% else %}
 You are not the current max bid.
 {% endif %}
+
 {% endif %}
 
 <div class="bid">
