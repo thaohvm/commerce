@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 
 
-from .models import Bid, Comment, Listing, User, Watchlist
+from .models import Bid, Comment, Listing, User, Watchlist, Category
 
 
 class NewListingForm(forms.ModelForm):
@@ -195,3 +195,10 @@ def watchlist(request):
         return render(request, "auctions/watchlist.html", {
             "watchlist": watchlist
         })
+
+
+def categories_list(request):
+    categories = Category.objects.all()
+    return render (request, 'auctions/categories.html', {
+        "categories": categories
+    })
