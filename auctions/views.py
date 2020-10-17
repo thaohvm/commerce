@@ -199,7 +199,12 @@ def watchlist(request):
 
 def category(request, id=0):
     if id > 0:
-        pass
+        category = Category.objects.get(id=id)
+        listings = Listing.objects.filter(category=id)
+        return render (request, 'auctions/category.html',{
+            "category": category,
+            "listings": listings
+        })
     else:
         categories = Category.objects.all()
         return render (request, 'auctions/categories.html', {
