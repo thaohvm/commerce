@@ -197,8 +197,11 @@ def watchlist(request):
         })
 
 
-def categories_list(request):
-    categories = Category.objects.all()
-    return render (request, 'auctions/categories.html', {
-        "categories": categories
-    })
+def category(request, id=0):
+    if id > 0:
+        pass
+    else:
+        categories = Category.objects.all()
+        return render (request, 'auctions/categories.html', {
+            "categories": categories
+        })
