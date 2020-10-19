@@ -22,6 +22,7 @@ class Listing(models.Model):
     image_url = models.URLField(blank=True)
     description = models.CharField(max_length=256, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    closed = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 

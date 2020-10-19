@@ -4,6 +4,14 @@
 {% block body %}
 <h2>Listing: {{ item.item }}</h2>
 
+{% if item.closed %}
+    {% if user.is_authenticated and user == max_bid_user %}
+        <h6> Congratulations! You are the winner of this auction! </h6>
+    {% else %}
+        <h6> {{ max_bid_user.first_name }} {{ max_bid_user.last_name }} is the winner of this auction! </h6>
+    {% endif %}
+{% endif %}
+
 <ul>
     <img class="listing image" src="{% static item.image %}">
     <br />
@@ -11,6 +19,8 @@
     <br />
     {{ item.currency }} {{ price }}
 </ul>
+
+{% if not item.closed %}
 
 <h6> {{ total_bids }} bid(s) so far. </h6>
 {% if user.is_authenticated %}
@@ -52,11 +62,20 @@ You are not the current max bid.
 <a class="nav-link" href="{% url 'login' %}">Log in to bid</a>
 {% endif %}
 
+{% endif %}
+
 <h3>Details</h3>
 <ul>
     <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
     <li>Categories</li>
 </ul>
+
+{% if not item.closed and item.created_by == user %}
+<form action="{% url 'close_listing' item.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Close this listing">
+</form>
+{% endif %}
 
 <h3>Comments</h3>
 
@@ -66,6 +85,7 @@ You are not the current max bid.
     {% endfor %}
 </ul>
 
+{% if user.is_authenticated %}
 <div class="comments">
     <form action="{% url 'comment' %}" method="post">
         {% csrf_token %}
@@ -76,5 +96,6 @@ You are not the current max bid.
         <input type="submit" value="Post">
     </form>
 </div>
+{% endif %}
 
 {% endblock %}

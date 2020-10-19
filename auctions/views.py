@@ -117,8 +117,9 @@ def listing(request, id=0):
         bids = Bid.objects.filter(item=item)
         is_max_bid = request.user.id is not None and bids and max(
             bids, key=lambda b: b.bid).bid_by.id == request.user.id
+        max_bid_user = max(bids, key=lambda b: b.bid).bid_by
         comments = Comment.objects.filter(item=item)
-        watchlisted = Watchlist.objects.filter(
+        watchlisted = request.user.is_authenticated and Watchlist.objects.filter(
             item=item, user=request.user).count() > 0
 
         return render(request, "auctions/listing.html", {
@@ -126,6 +127,7 @@ def listing(request, id=0):
             "price": max(item.price, max(bids, key=lambda b: b.bid).bid),
             "total_bids": len(bids),
             "is_max_bid": is_max_bid,
+            "max_bid_user": max_bid_user,
             "watchlisted": watchlisted,
             "watchlist_form": WatchlistForm(None, initial={
                 "item": item,
@@ -148,6 +150,16 @@ def create_listing(request):
         return render(request, "auctions/create_listing.html", {
             "form": NewListingForm()
         })
+
+
+def close_listing(request, id):
+    if request.method == "POST":
+        listing = Listing.objects.get(id=id)
+        if request.user == listing.created_by:
+            listing.closed = True
+            listing.save()
+            return HttpResponseRedirect(reverse("listing", args=[id]))
+    return HttpResponseBadRequest("Invalid request!")
 
 
 def bid(request):
@@ -201,12 +213,12 @@ def category(request, id=0):
     if id > 0:
         category = Category.objects.get(id=id)
         listings = Listing.objects.filter(category=id)
-        return render (request, 'auctions/category.html',{
+        return render(request, 'auctions/category.html', {
             "category": category,
             "listings": listings
         })
     else:
         categories = Category.objects.all()
-        return render (request, 'auctions/categories.html', {
+        return render(request, 'auctions/categories.html', {
             "categories": categories
         })
