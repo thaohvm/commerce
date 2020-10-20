@@ -117,14 +117,14 @@ def listing(request, id=0):
         bids = Bid.objects.filter(item=item)
         is_max_bid = request.user.id is not None and bids and max(
             bids, key=lambda b: b.bid).bid_by.id == request.user.id
-        max_bid_user = max(bids, key=lambda b: b.bid).bid_by
+        max_bid_user = max(bids, key=lambda b: b.bid).bid_by if bids else None
         comments = Comment.objects.filter(item=item)
         watchlisted = request.user.is_authenticated and Watchlist.objects.filter(
             item=item, user=request.user).count() > 0
 
         return render(request, "auctions/listing.html", {
             "item": item,
-            "price": max(item.price, max(bids, key=lambda b: b.bid).bid),
+            "price": max(bids, key=lambda b: b.bid).bid if bids else item.price,
             "total_bids": len(bids),
             "is_max_bid": is_max_bid,
             "max_bid_user": max_bid_user,

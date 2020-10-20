@@ -13,7 +13,7 @@
 {% endif %}
 
 <ul>
-    <img class="listing image" src="{% static item.image %}">
+    <img class="listing image" src="{{ item.image_url }}">
     <br />
     {{ item.description }}
     <br />

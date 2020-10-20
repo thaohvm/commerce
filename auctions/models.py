@@ -20,7 +20,7 @@ class Listing(models.Model):
     currency = models.CharField(max_length=3)
     image = models.ImageField(upload_to="uploads/images", blank=True)
     image_url = models.URLField(blank=True)
-    description = models.CharField(max_length=256, blank=True)
+    description = models.TextField(max_length=256, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     closed = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
@@ -28,8 +28,8 @@ class Listing(models.Model):
 
     def __str__(self):
         return (
-            f"{self.item} : {self.description} - "
-            f"{self.price}{self.currency} - {self.created}"
+            f"{self.item} : "
+            f"{self.currency}{self.price} created by {self.created_by}"
         )
 
 
