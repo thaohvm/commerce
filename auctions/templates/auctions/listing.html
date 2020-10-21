@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-<h2>Listing: {{ item.item }}</h2>
+<h2>{{ item.item }}</h2>
 
 {% if item.closed %}
     {% if user.is_authenticated and user == max_bid_user %}
@@ -32,9 +32,9 @@
         {{ watchlist_form.delete }}
     </table>
     {% if watchlisted %}
-    <input type="submit" value="Watchlisted">
+    <input type="submit" value="In Watchlisted">
     {% else %}
-    <input type="submit" value="Not Watchlisted">
+    <input type="submit" value="Add to Watchlisted">
     {% endif %}
 </form>
 
@@ -81,10 +81,13 @@ You are not the current max bid.
 
 <ul>
     {% for comment in comments %}
-    <li>{{ comment.content }} by {{ comment.created_by.first_name}} at {{ comment.created }}</li>
+    <table> 
+        <li>{{ comment.created_by.first_name }} on {{ comment.created }}</li>
+        <p>{{ comment.content }}</p>
+    </table>    
     {% endfor %}
 </ul>
-
+<h6>Your comment</h6>
 {% if user.is_authenticated %}
 <div class="comments">
     <form action="{% url 'comment' %}" method="post">

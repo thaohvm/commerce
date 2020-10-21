@@ -44,7 +44,7 @@ class Bid(models.Model):
 
 class Comment(models.Model):
     item = models.ForeignKey(Listing, on_delete=models.CASCADE)
-    content = models.CharField(max_length=256)
+    content = models.TextField()
     created = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 

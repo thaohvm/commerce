@@ -3,6 +3,14 @@ body {
 }
 
 .listing.image {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
+    max-height: 300px;
+}
+.listing_image_url {
+    width: 150px;
+    height: auto;
+    padding: 20px;
+}
+.table,tr,th {
+    border: 1px solid black;
 }
