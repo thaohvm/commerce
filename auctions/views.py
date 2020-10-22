@@ -169,7 +169,8 @@ def bid(request):
             item = form.cleaned_data["item"]
             bid = form.cleaned_data["bid"]
             bids = Bid.objects.filter(item=item)
-            if bid > max(item.price, max(bids, key=lambda b: b.bid).bid):
+            max_bid = max(bids, key=lambda b: b.bid).bid if bids else item.price
+            if bid > max_bid:
                 obj = form.save(commit=False)
                 obj.bid_by = request.user
                 obj.save()

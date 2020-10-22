@@ -5,25 +5,12 @@
 <h2>{{ item.item }}</h2>
 
 {% if item.closed %}
-    {% if user.is_authenticated and user == max_bid_user %}
-        <h6> Congratulations! You are the winner of this auction! </h6>
-    {% else %}
-        <h6> {{ max_bid_user.first_name }} {{ max_bid_user.last_name }} is the winner of this auction! </h6>
-    {% endif %}
+{% if user.is_authenticated and user == max_bid_user %}
+<h6> Congratulations! You are the winner of this auction! </h6>
+{% else %}
+<h6> {{ max_bid_user.first_name }} {{ max_bid_user.last_name }} is the winner of this auction! </h6>
 {% endif %}
-
-<ul>
-    <img class="listing image" src="{{ item.image_url }}">
-    <br />
-    {{ item.description }}
-    <br />
-    {{ item.currency }} {{ price }}
-</ul>
-
-{% if not item.closed %}
-
-<h6> {{ total_bids }} bid(s) so far. </h6>
-{% if user.is_authenticated %}
+{% endif %}
 
 <form action="{% url 'watchlist' %}" method="post">
     {% csrf_token %}
@@ -32,11 +19,31 @@
         {{ watchlist_form.delete }}
     </table>
     {% if watchlisted %}
-    <input type="submit" value="In Watchlisted">
+    <input class="button" type="image"
+        src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678087-heart-512.png"><a>In your watchlist</a>
     {% else %}
-    <input type="submit" value="Add to Watchlisted">
+    <input class="button" type="image"
+        src="https://icons-for-free.com/iconfiles/png/512/heart-131965017458786724.png"><a>Add to your watchlist</a>
     {% endif %}
 </form>
+
+<table>
+    <tr>
+        <th><img class="listing image" src="{{ item.image_url }}"></th>
+        <th>
+            {{ item.description }}
+        </br>
+            {{ item.currency }} {{ price }}
+        </th>
+    </tr>
+</table>
+
+
+{% if not item.closed %}
+
+<h6> {{ total_bids }} bid(s) so far. </h6>
+{% if user.is_authenticated %}
+
 
 {% if total_bids > 0 %}
 {% if is_max_bid %}
@@ -81,10 +88,10 @@ You are not the current max bid.
 
 <ul>
     {% for comment in comments %}
-    <table> 
+    <table>
         <li>{{ comment.created_by.first_name }} on {{ comment.created }}</li>
         <p>{{ comment.content }}</p>
-    </table>    
+    </table>
     {% endfor %}
 </ul>
 <h6>Your comment</h6>

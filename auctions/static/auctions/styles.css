@@ -5,12 +5,19 @@ body {
 .listing.image {
     max-width: 300px;
     max-height: 300px;
+    padding: 10px;
 }
 .listing_image_url {
     width: 150px;
     height: auto;
-    padding: 20px;
 }
 .table,tr,th {
     border: 1px solid black;
+    padding: 15px;
+    border-collapse: collapse;
+
+}
+.button {
+    width: 30px;
+    height: auto;
 }
