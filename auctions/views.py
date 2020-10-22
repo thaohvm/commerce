@@ -169,7 +169,8 @@ def bid(request):
             item = form.cleaned_data["item"]
             bid = form.cleaned_data["bid"]
             bids = Bid.objects.filter(item=item)
-            max_bid = max(bids, key=lambda b: b.bid).bid if bids else item.price
+            max_bid = max(
+                bids, key=lambda b: b.bid).bid if bids else item.price
             if bid > max_bid:
                 obj = form.save(commit=False)
                 obj.bid_by = request.user
@@ -214,6 +215,7 @@ def category(request, id=0):
     if id > 0:
         category = Category.objects.get(id=id)
         listings = Listing.objects.filter(category=id)
+
         return render(request, 'auctions/category.html', {
             "category": category,
             "listings": listings

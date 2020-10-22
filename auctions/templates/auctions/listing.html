@@ -74,7 +74,7 @@ You are not the current max bid.
 <h3>Details</h3>
 <ul>
     <li>Listed by: {{ item.created_by.first_name }} {{ item.created_by.last_name }}</li>
-    <li>Categories</li>
+    <li>Categories: {{ item.category}}</li>
 </ul>
 
 {% if not item.closed and item.created_by == user %}
