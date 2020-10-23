@@ -61,7 +61,7 @@ You are not the current max bid.
             {{ bid_form.item }}
             {{ bid_form.bid }}
         </table>
-        <input type="submit" value="Place Bid">
+        <input class="place_bid_button" type="submit" value="Place Bid">
     </form>
 </div>
 
@@ -80,19 +80,19 @@ You are not the current max bid.
 {% if not item.closed and item.created_by == user %}
 <form action="{% url 'close_listing' item.id %}" method="post">
     {% csrf_token %}
-    <input type="submit" value="Close this listing">
+    <input class="closing_button" type="submit" value="Close this listing">
 </form>
 {% endif %}
 
 <h3>Comments</h3>
 
 <ul>
-    {% for comment in comments %}
     <table>
+        {% for comment in comments %}
         <li>{{ comment.created_by.first_name }} on {{ comment.created }}</li>
         <p>{{ comment.content }}</p>
+        {% endfor %}
     </table>
-    {% endfor %}
 </ul>
 <h6>Your comment</h6>
 {% if user.is_authenticated %}

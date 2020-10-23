@@ -2,15 +2,14 @@
 
 {% block body %}
 <h2>Watchlist</h2>
-{% for wl in watchlist %}
+
 <table>
+    {% for wl in watchlist %}
     <tr>
         <th> <img class="listing image" src="{{ wl.item.image_url }}"></th>
         <th><a href="listing/{{ wl.item.id }}">{{ wl.item.item }}</a></th>
     </tr>
+    {% endfor %}
 </table>
-
-
-{% endfor %}
 
 {% endblock %}

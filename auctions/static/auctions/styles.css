@@ -16,8 +16,49 @@ body {
     padding: 15px;
     border-collapse: collapse;
 
-}
+} 
 .button {
     width: 30px;
     height: auto;
+}
+
+.place_bid_button {
+    background-color: rgb(65, 141, 228);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 15px 2px;
+    cursor: pointer;
+}
+.place_bid_button:hover {
+    background-color: #305caf
+}
+
+.closing_button {
+    background-color: rgb(153, 22, 22);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 15px 2px;
+    cursor: pointer;
+}
+
+.closing_button:hover {
+    background-color: #5c0813
+}
+#category {
+    width: 80%;   
+}
+
+#category td {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+}
+
+#category tr:nth-child(even){
+    background-color: #f2f2f2;
 }
