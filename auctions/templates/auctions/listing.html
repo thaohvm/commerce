@@ -86,14 +86,18 @@ You are not the current max bid.
 
 <h3>Comments</h3>
 
-<ul>
-    <table>
-        {% for comment in comments %}
-        <li>{{ comment.created_by.first_name }} on {{ comment.created }}</li>
-        <p>{{ comment.content }}</p>
-        {% endfor %}
-    </table>
-</ul>
+<table id="comments">
+    {% for comment in comments %}
+    <tr>
+        <td>
+            {{ comment.created_by.first_name }} on {{ comment.created }}
+            <br>
+            {{ comment.content }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
 <h6>Your comment</h6>
 {% if user.is_authenticated %}
 <div class="comments">

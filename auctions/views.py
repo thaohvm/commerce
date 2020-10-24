@@ -15,6 +15,10 @@ class NewListingForm(forms.ModelForm):
         model = Listing
         fields = ["item", "description", "price",
                   "currency", "image_url", "category"]
+        widgets = {
+            "item": forms.TextInput(attrs={"class": "listing_form"}),
+            "description": forms.TextInput(attrs={"class": "listing_form"}),
+        }
 
 
 class BidForm(forms.ModelForm):

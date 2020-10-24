@@ -50,7 +50,7 @@ body {
 .closing_button:hover {
     background-color: #5c0813
 }
-#category {
+#category, #watchlist {
     width: 80%;   
 }
 
@@ -61,4 +61,27 @@ body {
 
 #category tr:nth-child(even){
     background-color: #f2f2f2;
+}
+
+#comments {
+    width: 80%;   
+}
+
+#comments td {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+}
+
+#comments tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.listing_form {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
