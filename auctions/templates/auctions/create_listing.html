@@ -5,10 +5,10 @@
     <div class="item">
         <form action="{% url 'listing' %}" method="post">
             {% csrf_token %}
-            <table>
+            <table class="create_form">
             {{ form.as_table }}
             </table>
-            <input type="submit"> 
+            <input class="submit_button" type="submit"> 
         </form> 
     </div> 
 {% endblock %}

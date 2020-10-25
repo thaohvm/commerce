@@ -22,7 +22,7 @@ body {
     height: auto;
 }
 
-.place_bid_button {
+.submit_button {
     background-color: rgb(65, 141, 228);
     border: none;
     color: white;
@@ -84,4 +84,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+}
+.create_form {
+    width: 80%;
 }

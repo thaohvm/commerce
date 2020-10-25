@@ -18,6 +18,7 @@ class NewListingForm(forms.ModelForm):
         widgets = {
             "item": forms.TextInput(attrs={"class": "listing_form"}),
             "description": forms.TextInput(attrs={"class": "listing_form"}),
+            "currency": forms.TextInput(attrs={"class": "listing_form"})
         }
 
 
@@ -51,8 +52,14 @@ class WatchlistForm(forms.ModelForm):
 
 
 def index(request):
+    items = []
+    for listing in Listing.objects.all():
+        bids = Bid.objects.filter(item=listing)
+        price = max(bids, key=lambda b: b.bid).bid if bids else listing.price
+        items.append((listing, price))
+
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "items": items
     })
 
 

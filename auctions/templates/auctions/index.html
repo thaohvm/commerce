@@ -4,13 +4,14 @@
 <h2>Active Listings</h2>
 
 <table class="active_listing">
-    {% for listing in listings %}
+    {% for item in items %}
     <tr>
-        <th><img class="listing_image_url" src="{{ listing.image_url }}"></th>
+        <th><img class="listing_image_url" src="{{ item.0.image_url }}"></th>
         <th class=>
-            <a class="listing_title" href="listing/{{ listing.id }}">{{ listing.item }}</a>
-            <br/>Description: {{ listing.description }}
-            <br/>Created on {{ listing.created }}
+            <a class="listing_title" href="listing/{{ item.0.id }}">{{ item.0.item }}</a>
+            <br/>Description: {{ item.0.description }}
+            <br/>Price: {{ item.0.currency }} {{ item.1 }}
+            <br/>Created on {{ item.0.created }}
         
     </tr>
     {% endfor %}
